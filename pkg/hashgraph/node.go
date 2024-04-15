@@ -98,8 +98,7 @@ func (n *Node) SyncAllEvents(events SyncEventsDTO, success *bool) error {
     n.TransactionBuffer = nil
 
     // Create random signature
-    signatureUUID, err := uuid.NewV4()
-    handleError(err)
+    signatureUUID:= uuid.NewV4()
     signature := signatureUUID.String()
 
     // Assign parents
