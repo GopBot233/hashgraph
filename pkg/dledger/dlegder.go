@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"../hashgraph"
+	"github.com/GopBot233/hashgraph/hashgraph"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -22,7 +22,7 @@ const (
 	printPerMrpcCall           = 20                     // After per this many RPC calls, print out evaluations
 )
 
-//DLedger : Struct for a member of the distributed ledger
+// DLedger : Struct for a member of the distributed ledger
 type DLedger struct {
 	Node           *hashgraph.Node
 	MyAddress      string
@@ -98,7 +98,7 @@ func NewDLedgerFromPeers(port string, peerAddressMap map[string]string) *DLedger
 	}
 }
 
-//NewDLedger : Initialize a member in the distributed ledger.
+// NewDLedger : Initialize a member in the distributed ledger.
 // This is not adding a new member, but rather reading a member from a list and initializing it.
 func NewDLedger(port string, peersFilePath string) *DLedger {
 	localIPAddress := getLocalAddress()
@@ -106,12 +106,12 @@ func NewDLedger(port string, peersFilePath string) *DLedger {
 	return NewDLedgerFromPeers(port, peerAddressMap)
 }
 
-//Start : Starts the gossip routine in a go routine.
+// Start : Starts the gossip routine in a go routine.
 func (dl *DLedger) Start() {
 	go gossipRoutine(dl.Node, dl.PeerAddresses)
 }
 
-//PerformTransaction : Adds a transaction to the member's buffer.
+// PerformTransaction : Adds a transaction to the member's buffer.
 func (dl *DLedger) PerformTransaction(receiverAddr string, amount float64) {
 	dl.Node.RWMutex.Lock()
 	dl.Node.TransactionBuffer = append(dl.Node.TransactionBuffer, hashgraph.Transaction{
@@ -255,7 +255,7 @@ func readPeerAddresses(path string, localIPAddr string) map[string]string {
 	return peers
 }
 
-//WaitForPeers : Waits for all members in the member list to be online and responsive.
+// WaitForPeers : Waits for all members in the member list to be online and responsive.
 func (dl *DLedger) WaitForPeers() {
 	peerAvailable := make([]bool, len(dl.PeerAddresses))
 	remainingPeers := len(dl.PeerAddresses)

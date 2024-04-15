@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"../../pkg/dledger"
+	"github.com/GopBot233/hashgraph/pkg/dledger"
 )
 
 const (
