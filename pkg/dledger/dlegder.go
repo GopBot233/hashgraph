@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/GopBot233/hashgraph/hashgraph"
+	"github.com/GopBot233/hashgraph/pkg/hashgraph"
 	uuid "github.com/satori/go.uuid"
 )
 
