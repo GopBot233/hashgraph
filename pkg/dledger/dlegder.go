@@ -50,8 +50,10 @@ func NewDLedgerFromPeers(port string, peerAddressMap map[string]string) *DLedger
 	}
 
 	// Setup the Hashgraph
-	signatureUUID := uuid.NewV4()
+	signatureUUID, err := uuid.NewV4()
+	handleError(err)
 	signature := signatureUUID.String()
+	handleError(err)
 	initialHashgraph := make(map[string][]*hashgraph.Event, len(peerAddressMap))
 	for addr := range peerAddressMap {
 		initialHashgraph[addr] = make([]*hashgraph.Event, 0) // We should not know any event other than our own event at the start
