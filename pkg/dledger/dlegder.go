@@ -169,12 +169,15 @@ func gossipRoutine(node *hashgraph.Node, peerAddresses []string) {
 	// Start gossip
 	c := 0
 	startOfGossip := time.Now()
-	var err error
+
+	//v2 variable err
+	//var err error
+
 	eventEvaluationMilestonReached := false
 	for {
 		// Choose a peer
-		randomPeerConnection := peerClientMap[peerAddresses[rand.Intn(len(peerAddresses))]] /* V2 */
-		//randomPeer := peerAddresses[rand.Intn(len(peerAddresses))] /* V1 */
+		//randomPeerConnection := peerClientMap[peerAddresses[rand.Intn(len(peerAddresses))]] /* V2 */
+		randomPeer := peerAddresses[rand.Intn(len(peerAddresses))] /* V1 */
 
 		// Calculate how many events I know
 		knownEventNums := make(map[string]int, len(node.Hashgraph))
@@ -195,10 +198,10 @@ func gossipRoutine(node *hashgraph.Node, peerAddresses []string) {
 
 		// Ask the chosen peer how many events they do not know but I know
 		numEventsToSend := make(map[string]int, len(node.Hashgraph))
-		//peerRPCconn, err := rpc.Dial("tcp", randomPeer)                                         /* V1 */
+		peerRPCconn, err := rpc.Dial("tcp", randomPeer) /* V1 */
 		//handleError(err)                                                                        /* V1 */
-		//_ = peerRPCconn.Call("Node.GetNumberOfMissingEvents", knownEventNums, &numEventsToSend) /* V1 */
-		err = randomPeerConnection.Call("Node.GetNumberOfMissingEvents", knownEventNums, &numEventsToSend) /* V2 */
+		_ = peerRPCconn.Call("Node.GetNumberOfMissingEvents", knownEventNums, &numEventsToSend) /* V1 */
+		//err = randomPeerConnection.Call("Node.GetNumberOfMissingEvents", knownEventNums, &numEventsToSend) /* V2 */
 		handleError(err)
 
 		// Send the missing events
@@ -225,9 +228,9 @@ func gossipRoutine(node *hashgraph.Node, peerAddresses []string) {
 
 		node.RWMutex.RUnlock()
 
-		//_ = peerRPCconn.Call("Node.SyncAllEvents", syncEventsDTO, nil) /* V1 */
-		//_ = peerRPCconn.Close()                                        /* V1 */
-		err = randomPeerConnection.Call("Node.SyncAllEvents", syncEventsDTO, nil) /* V2 */
+		_ = peerRPCconn.Call("Node.SyncAllEvents", syncEventsDTO, nil) /* V1 */
+		_ = peerRPCconn.Close()                                        /* V1 */
+		//err = randomPeerConnection.Call("Node.SyncAllEvents", syncEventsDTO, nil) /* V2 */
 		handleError(err)
 
 		c++
@@ -263,13 +266,14 @@ func (dl *DLedger) WaitForPeers() {
 			if hasAlreadyResponded {
 				continue
 			}
-
+			fmt.Printf("Connecting %s \n", dl.PeerAddresses[index])
 			rpcConnection, err := rpc.Dial("tcp", dl.PeerAddresses[index])
 			if err != nil {
-				fmt.Printf("Fail to connect to %s, retrying ...", dl.PeerAddresses[index])
+				fmt.Printf("Fail to connect to %s, retrying ...\n", dl.PeerAddresses[index])
 				time.Sleep(connectionAttemptDelayTime)
 				continue
 			} else {
+				fmt.Println("Succeed!")
 				_ = rpcConnection.Close()
 				peerAvailable[index] = true
 				remainingPeers--

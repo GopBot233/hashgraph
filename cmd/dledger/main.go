@@ -21,6 +21,8 @@ func main() {
 
 	distributedLedger := dledger.NewDLedger(port, "peers.txt")
 
+	fmt.Println("Welcome! Waiting for peers ...")
+
 	distributedLedger.WaitForPeers()
 	fmt.Printf("I am online at %s and all peers are available.\n", distributedLedger.MyAddress)
 	distributedLedger.Start()
