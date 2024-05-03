@@ -266,6 +266,7 @@ func (dl *DLedger) WaitForPeers() {
 
 			rpcConnection, err := rpc.Dial("tcp", dl.PeerAddresses[index])
 			if err != nil {
+				fmt.Printf("Fail to connect to %s, retrying ...", dl.PeerAddresses[index])
 				time.Sleep(connectionAttemptDelayTime)
 				continue
 			} else {

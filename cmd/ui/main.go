@@ -1,13 +1,16 @@
 package main
 
 import (
-    "flag"
-    "github.com/GopBot233/hashgraph/pkg/dledger"
-    bootstrap "github.com/asticode/go-astilectron-bootstrap"
-    "log"
-    "net"
-    "sync"
-    "time"
+	"flag"
+	"log"
+	"net"
+	"sync"
+	"time"
+
+	"github.com/GopBot233/hashgraph/pkg/dledger"
+	"github.com/asticode/go-astikit"
+	"github.com/asticode/go-astilectron"
+	bootstrap "github.com/asticode/go-astilectron-bootstrap"
 )
 
 var (

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"bufio"
+	//"bufio"
+
 	"fmt"
 	"os"
-	"strconv"
 
 	"github.com/GopBot233/hashgraph/pkg/dledger"
 )
@@ -28,7 +28,7 @@ func main() {
 	// Routine for user transaction inputs
 	var input int
 	var amount float64
-	scanner := bufio.NewScanner(os.Stdin)
+	//scanner := bufio.NewScanner(os.Stdin)         replace bufio.scanner to fmt.scan
 	fmt.Println()
 	for {
 		// note: peerAddressMap contains me, but peerAddresses does not
@@ -42,8 +42,14 @@ func main() {
 		for errForInput {
 			var err error
 			errForInput = false
-			scanner.Scan()
-			input, err = strconv.Atoi(scanner.Text())
+			/**
+				replace bufio
+			**/
+			//scanner.Scan()
+			//input, err = strconv.Atoi(scanner.Text())
+
+			fmt.Scan(&input)
+
 			if err != nil || input <= 0 || input > len(distributedLedger.PeerAddresses) {
 				errForInput = true
 				fmt.Printf("\nBad input, try again: > ")
@@ -57,8 +63,13 @@ func main() {
 		for errForInput {
 			var err error
 			errForInput = false
-			scanner.Scan()
-			amount, err = strconv.ParseFloat(scanner.Text(), 64)
+			/**
+				replace bufio
+			**/
+			//scanner.Scan()
+			//amount, err = strconv.ParseFloat(scanner.Text(), 64)
+			fmt.Scan(&amount)
+
 			if err != nil || amount <= 0 {
 				errForInput = true
 				fmt.Printf("Bad input, try again: > ")
