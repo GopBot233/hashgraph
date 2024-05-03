@@ -1,7 +1,8 @@
 package main
 
 import (
-	//"bufio"
+	"bufio"
+	"strconv"
 
 	"fmt"
 	"os"
@@ -30,7 +31,7 @@ func main() {
 	// Routine for user transaction inputs
 	var input int
 	var amount float64
-	//scanner := bufio.NewScanner(os.Stdin)         replace bufio.scanner to fmt.scan
+	scanner := bufio.NewScanner(os.Stdin) //You can replace bufio.scanner to fmt.scan
 	fmt.Println()
 	for {
 		// note: peerAddressMap contains me, but peerAddresses does not
@@ -45,12 +46,12 @@ func main() {
 			var err error
 			errForInput = false
 			/**
-				replace bufio
+				You can replace bufio
 			**/
-			//scanner.Scan()
-			//input, err = strconv.Atoi(scanner.Text())
+			scanner.Scan()
+			input, err = strconv.Atoi(scanner.Text())
 
-			fmt.Scan(&input)
+			//fmt.Scan(&input)
 
 			if err != nil || input <= 0 || input > len(distributedLedger.PeerAddresses) {
 				errForInput = true
@@ -66,11 +67,11 @@ func main() {
 			var err error
 			errForInput = false
 			/**
-				replace bufio
+				You can replace bufio
 			**/
-			//scanner.Scan()
-			//amount, err = strconv.ParseFloat(scanner.Text(), 64)
-			fmt.Scan(&amount)
+			scanner.Scan()
+			amount, err = strconv.ParseFloat(scanner.Text(), 64)
+			//fmt.Scan(&amount)
 
 			if err != nil || amount <= 0 {
 				errForInput = true
